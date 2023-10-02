@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Zodiac Animal Symbol</title>
+    <style>
+               body {
+            background-color: rgb(170, 182, 90);
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+            margin-top: 20px;
+        }
+
+        p {
+            color: rgb(4, 4, 4);
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #0b0c0c;
+            color: rgb(255, 255, 255);
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #b7b7bb;
+        }
+
+        #result {
+            display: none;
+            background-color: rgb(218, 233, 122);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        #animalName {
+            color: #010801;
+        }
+
+        #animalDetails {
+            color: rgb(3, 2, 2);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chinese Zodiac Animal Symbol</h1>
+    <p>Enter a four-digit year to find the corresponding Chinese zodiac animal:</p>
+    <input type="number" id="yearInput" min="1940" max="2099">
+    <button onclick="findAnimalSymbol()">Find</button>
+    <div id="result" style="display: none;">
+        <img id="animalImage" src="" alt="Zodiac Animal">
+        <h2 id="animalName"></h2>
+        <p id="animalDetails"></p>
+        <button onclick="resetPage()">Reset</button>
+    </div>
+
+    <script>
+        function findAnimalSymbol() {
+            const yearInput = document.getElementById("yearInput").value;
+            const result = document.getElementById("result");
+
+            if (yearInput.length === 4 && !isNaN(yearInput)) {
+                const year = parseInt(yearInput);
+                const zodiacAnimals = [
+                    { start: 1950, animal: "Rat", details: "clever, quick thinkers; successful, but content with living a quiet and peaceful life.", detailsUrl: "https://en.wikipedia.org/wiki/Rat_(zodiac)" },
+                    { start: 1962, animal: "Ox", details: "diligence, dependability, strength and determination.", detailsUrl: "https://en.wikipedia.org/wiki/Ox_(zodiac)" },
+                    { start: 1974, animal: "Tiger", details: "sensitive, emotional, and capable of great love. However, they have a tendency to get into difficult and troubling situations.", detailsUrl: "https://en.wikipedia.org/wiki/Tiger_(zodiac)" },
+                    { start: 1986, animal: "Rabbit", details: "gentle, gracious, and elegant. They like to express their feelings through artistic activities.", detailsUrl: "https://en.wikipedia.org/wiki/Rabbit_(zodiac)" },
+                    { start: 1998, animal: "Dragon", details: "innovative, brave, and passionate. They are perfectionists and are often liked by others.", detailsUrl: "https://en.wikipedia.org/wiki/Dragon_(zodiac)" },
+                    { start: 2010, animal: "Snake", details: "wise, enigmatic, and are often deep thinkers. They are prone to anger and jealousy, but are usually calm and low-key.", detailsUrl: "https://en.wikipedia.org/wiki/Snake_(zodiac)" },
+                    { start: 2022, animal: "Horse", details: "hard-working, intelligent, and charming. They are often natural leaders and enjoy being the center of attention.", detailsUrl: "https://en.wikipedia.org/wiki/Horse_(zodiac)" },
+                    { start: 2034, animal: "Goat", details: "creative, calm, and practical. They value their independence and enjoy being alone.", detailsUrl: "https://en.wikipedia.org/wiki/Goat_(zodiac)" },
+                    { start: 2046, animal: "Monkey", details: "clever, skillful, and flexible. They are also known to be excellent problem solvers.", detailsUrl: "https://en.wikipedia.org/wiki/Monkey_(zodiac)" },
+                    { start: 2058, animal: "Rooster", details: "honest, hardworking, and communicative. They are often highly motivated and set high standards for themselves.", detailsUrl: "https://en.wikipedia.org/wiki/Rooster_(zodiac)" },
+                    { start: 2070, animal: "Dog", details: "loyal, faithful, and honest. They are often kind and are willing to listen to others without prejudice.", detailsUrl: "https://en.wikipedia.org/wiki/Dog_(zodiac)" },
+                    { start: 2082, animal: "Pig", details: "diligent, compassionate, and generous. They are known for their sincerity and are willing to help others.", detailsUrl: "https://en.wikipedia.org/wiki/Pig_(zodiac)" }
+                ];
+
+                let found = false;
+                let animal = "";
+                let details = "";
+                let detailsUrl = "";
+
+                for (const zodiac of zodiacAnimals) {
+                    if (year >= zodiac.start && year <= (zodiac.start + 11)) {
+                        animal = zodiac.animal;
+                        details = zodiac.details;
+                        detailsUrl = zodiac.detailsUrl;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    const animalImage = document.getElementById("animalImage");
+                    animalImage.src = `Images/${animal.toLowerCase()}.jpg`; 
+                    const animalName = document.getElementById("animalName");
+                    animalName.textContent = animal;
+                    const animalDetails = document.getElementById("animalDetails");
+                    animalDetails.innerHTML = `
+                        <p>People born in the Year of the ${animal} are said to be ${details}</p>
+                        <p>For more information, <a href="${detailsUrl}" target="_blank" rel="noopener noreferrer">click here</a>.</p>
+                    `;
+                    result.style.display = "block";
+                } else {
+                    result.style.display = "block";
+                    document.getElementById("animalName").textContent = "No data found for that year.";
+                    document.getElementById("animalImage").src = "";
+                    document.getElementById("animalDetails").textContent = "";
+                }
+            } else {
+                alert("Please enter a valid four-digit year.");
+            }
+        }
+
+        function resetPage() {
+            document.getElementById("yearInput").value = "";
+            document.getElementById("result").style.display = "none";
+        }
+        const yearInput = document.getElementById("yearInput");
+        yearInput.addEventListener("change", findAnimalSymbol);
+    </script>
+</body>
+</html>
